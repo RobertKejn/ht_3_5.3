@@ -4,15 +4,15 @@
 
 class functor {
 private:
-    std::vector<int> v;
-    int summ = 0;
-    int count = 0;
+    int summ;
+    int count;
 public:
-    functor(const std::vector<int> v) : v(v) { }
-    void operator()() {
-        for (auto i = v.begin(); i < v.end(); ++i) {
-            if (*i % 3 == 0) { summ += *i; ++count; }
-       }
+    functor() : summ(0), count(0) { }
+    void operator()(int n) {
+        if (n % 3 == 0) {
+            ++count;
+            summ += n;
+        }
     }
     int get_summ() { return summ; }
     int get_count() { return count; }
@@ -20,8 +20,9 @@ public:
 
 int main()
 {
-    auto f = functor(std::vector<int>{4, 1, 3, 6, 25, 54});
-    f();
+    std::vector<int> arr{ 4, 1, 3, 6, 25, 54 };
+    functor f;
+    f = std::for_each(arr.begin(), arr.end(), f);
     std::cout << f.get_summ() << "\n";
-    std::cout << f.get_count();
+    std::cout << f.get_count() << "\n";
 }
